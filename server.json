@@ -1,0 +1,79 @@
+{
+  "name": "io.github.banksynchq/banksync",
+  "display_name": "BankSync",
+  "description": "Connect AI agents to bank accounts, transactions, balances, and investment data. Sync financial data to Notion, Google Sheets, and Airtable.",
+  "repository": {
+    "url": "https://github.com/banksynchq/mcp",
+    "source": "github"
+  },
+  "version_detail": {
+    "version": "1.0.0"
+  },
+  "packages": [
+    {
+      "registry_name": "npm",
+      "name": "@banksync/mcp",
+      "version": "1.0.0",
+      "runtime": "node",
+      "environment_variables": [
+        {
+          "name": "BANKSYNC_API_KEY",
+          "description": "Your BankSync API key from https://banksync.io/developers",
+          "required": true
+        }
+      ]
+    },
+    {
+      "registry_name": "pypi",
+      "name": "banksync-mcp",
+      "version": "1.0.0",
+      "runtime": "python",
+      "environment_variables": [
+        {
+          "name": "BANKSYNC_API_KEY",
+          "description": "Your BankSync API key from https://banksync.io/developers",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "transport_type": "streamable-http",
+      "url": "https://mcp.banksync.io",
+      "headers": {
+        "X-API-Key": "${BANKSYNC_API_KEY}"
+      }
+    }
+  ],
+  "tools": [
+    { "name": "get_data_type_schema", "description": "Get available source fields for a data type — use before building fieldMappings" },
+    { "name": "list_feed_sources", "description": "List supported feed source types and their data type combinations" },
+    { "name": "list_workspaces", "description": "List all workspaces the authenticated user belongs to" },
+    { "name": "get_workspace", "description": "Get workspace name, plan, and settings" },
+    { "name": "list_integrations", "description": "List connected destination integrations (Notion, Sheets, Airtable)" },
+    { "name": "delete_integration", "description": "Remove a destination integration from a workspace" },
+    { "name": "list_banks", "description": "List connected bank/institution connections for a workspace" },
+    { "name": "get_bank", "description": "Get a bank connection and its live accounts from the institution" },
+    { "name": "create_bank_link", "description": "Initiate a new bank connection — returns authorization URL" },
+    { "name": "connect_bank", "description": "Complete a Plaid bank connection with a public_token" },
+    { "name": "delete_bank", "description": "Remove a bank connection from a workspace" },
+    { "name": "list_accounts", "description": "Fetch live accounts for a bank connection from the institution" },
+    { "name": "get_account", "description": "Fetch a single account's current details from the institution" },
+    { "name": "get_transactions", "description": "Fetch bank transactions for an account with date range or cursor sync" },
+    { "name": "get_balance", "description": "Fetch the current live balance for an account" },
+    { "name": "get_holdings", "description": "Get current investment holdings for an investment account" },
+    { "name": "get_trades", "description": "Get investment transactions for an investment account" },
+    { "name": "get_loan", "description": "Get loan details for a loan or liability account" },
+    { "name": "list_feeds", "description": "List all data pipeline feeds in a workspace" },
+    { "name": "get_feed", "description": "Get full configuration and status of a feed pipeline" },
+    { "name": "create_feed", "description": "Create a new data pipeline feed" },
+    { "name": "update_feed", "description": "Update a feed's configuration or schedule" },
+    { "name": "validate_feed", "description": "Pre-flight validate a feed configuration without creating it" },
+    { "name": "delete_feed", "description": "Permanently delete a feed and its job history" },
+    { "name": "list_jobs", "description": "List sync job history for a feed" },
+    { "name": "get_job", "description": "Get status and progress of a specific sync job" },
+    { "name": "trigger_sync", "description": "Queue a new sync job for a feed" },
+    { "name": "cancel_job", "description": "Cancel a queued or in-progress sync job" }
+  ]
+}

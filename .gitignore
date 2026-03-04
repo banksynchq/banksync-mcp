@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.tsbuildinfo
+python/dist/
+python/build/
+python/*.egg-info/
+__pycache__/
+*.pyc
+.env
