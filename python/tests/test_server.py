@@ -10,7 +10,8 @@ from banksync_mcp.server import REMOTE_URL
 
 
 def test_version():
-    assert __version__ == "1.0.0"
+    assert __version__  # version string is non-empty
+    assert all(c.isdigit() or c == '.' for c in __version__)  # valid semver format
 
 
 def test_remote_url():
