@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@banksync/mcp)](https://www.npmjs.com/package/@banksync/mcp)
 [![PyPI version](https://img.shields.io/pypi/v/banksync-mcp)](https://pypi.org/project/banksync-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Smithery](https://smithery.ai/badge/@banksync/banksync-mcp)](https://smithery.ai/server/banksync/banksync-mcp)
+[![smithery badge](https://smithery.ai/badge/banksync/banksync-mcp)](https://smithery.ai/servers/banksync/banksync-mcp)
 [![Install with NPX in VS Code](https://img.shields.io/badge/VS_Code-NPX-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=banksync&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40banksync%2Fmcp%22%5D%2C%22env%22%3A%7B%22BANKSYNC_API_KEY%22%3A%22your-key%22%7D%7D)
 
 Talk to your bank data. Connect AI agents to real bank accounts — transactions, balances, investments, and loans — across 15,000+ financial institutions.
