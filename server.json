@@ -48,17 +48,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.banksync.io",
-      "headers": {
-        "X-API-Key": "{BANKSYNC_API_KEY}"
-      },
-      "variables": {
-        "BANKSYNC_API_KEY": {
-          "description": "Your BankSync API key",
-          "isSecret": true,
-          "isRequired": true
-        }
-      }
+      "url": "https://mcp.banksync.io"
     }
   ],
   "tools": [
