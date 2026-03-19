@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.0.2] — 2026-03-19
+
+- Shorten server.json description to meet registry 100-char limit
+- Add auto-release workflow and unified CHANGELOG
+
 ## [v1.0.1] — 2026-03-19
 
 - Add MCP Registry metadata (`<!-- mcp-name -->` comment) to PyPI README for official registry verification
