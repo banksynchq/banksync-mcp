@@ -7,3 +7,5 @@ python/*.egg-info/
 __pycache__/
 *.pyc
 .env
+.pnpm-store/
+python/.venv/

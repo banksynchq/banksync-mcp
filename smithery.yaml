@@ -1,0 +1,18 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      BANKSYNC_API_KEY:
+        type: string
+        description: "Your BankSync API key from https://banksync.io/developers"
+    required:
+      - BANKSYNC_API_KEY
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@banksync/mcp'],
+      env: {
+        BANKSYNC_API_KEY: config.BANKSYNC_API_KEY
+      }
+    })

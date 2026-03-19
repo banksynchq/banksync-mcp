@@ -8,10 +8,9 @@ using Streamable HTTP transport and exposes it over stdio for local clients.
 import os
 import sys
 
+from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
 from mcp.server.stdio import stdio_server
-from mcp import ClientSession
-
 
 REMOTE_URL = "https://mcp.banksync.io"
 
@@ -32,15 +31,14 @@ async def run():
         read_stream,
         write_stream,
         _,
-    ):
-        async with ClientSession(read_stream, write_stream) as session:
-            await session.initialize()
+    ), ClientSession(read_stream, write_stream) as session:
+        await session.initialize()
 
-            # Bridge: read from stdin, forward to remote, write to stdout
-            async with stdio_server() as (stdin_read, stdout_write):
-                async for message in stdin_read:
-                    result = await session.send_request(message)
-                    await stdout_write.send(result)
+        # Bridge: read from stdin, forward to remote, write to stdout
+        async with stdio_server() as (stdin_read, stdout_write):
+            async for message in stdin_read:
+                result = await session.send_request(message)
+                await stdout_write.send(result)
 
 
 def main():
