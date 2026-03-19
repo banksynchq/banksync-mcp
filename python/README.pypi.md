@@ -1,5 +1,7 @@
 # banksync-mcp
 
+<!-- mcp-name: io.github.banksynchq/banksync -->
+
 [![PyPI version](https://img.shields.io/pypi/v/banksync-mcp)](https://pypi.org/project/banksync-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/banksync-mcp)](https://pypi.org/project/banksync-mcp/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/banksynchq/banksync-mcp/blob/main/LICENSE)

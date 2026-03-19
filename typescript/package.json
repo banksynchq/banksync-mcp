@@ -1,6 +1,6 @@
 {
   "name": "@banksync/mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "BankSync MCP server — connect AI agents to bank accounts, transactions, balances, and investment data",
   "license": "MIT",
   "author": "BankSync <hello@banksync.io>",

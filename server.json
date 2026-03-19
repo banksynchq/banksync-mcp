@@ -3,7 +3,7 @@
   "name": "io.github.banksynchq/banksync",
   "title": "BankSync",
   "description": "Connect AI agents to bank accounts, transactions, balances, and investment data. Sync to Notion, Google Sheets, and Airtable.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/banksynchq/banksync-mcp",
     "source": "github"
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "@banksync/mcp",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -30,7 +30,7 @@
     {
       "registryType": "pypi",
       "identifier": "banksync-mcp",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"
