@@ -10,5 +10,8 @@ __pycache__/
 .mcpregistry_*
 mcp-registry-key.pem
 *.pem
+mcpb/node_modules/
+mcpb/*.mcpb
+mcpb/package-lock.json
 .pnpm-store/
 python/.venv/

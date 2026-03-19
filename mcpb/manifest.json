@@ -1,0 +1,67 @@
+{
+  "manifest_version": "0.3",
+  "name": "banksync-mcp",
+  "display_name": "BankSync",
+  "version": "1.0.2",
+  "description": "Connect to your bank accounts — transactions, balances, investments, and loans across 15,000+ institutions.",
+  "long_description": "BankSync MCP gives Claude secure access to your real financial data. Ask about transactions, check balances, track investments, and sync data to Notion, Google Sheets, and Airtable — all through conversation.\n\n28 tools across 7 categories: workspace management, bank connections, account data, financial queries (transactions, balances, holdings, trades, loans), automated data pipelines (feeds), and sync job management.\n\nSupports 15,000+ institutions via Plaid (US/UK/CA) and Basiq (AU/NZ).",
+  "author": {
+    "name": "BankSync",
+    "email": "hello@banksync.io",
+    "url": "https://banksync.io"
+  },
+  "homepage": "https://banksync.io",
+  "repository": { "type": "git", "url": "https://github.com/banksynchq/banksync-mcp" },
+  "documentation": "https://banksync.io/developers",
+  "license": "MIT",
+  "keywords": [
+    "banking",
+    "finance",
+    "transactions",
+    "plaid",
+    "investments",
+    "notion",
+    "google-sheets",
+    "airtable"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "BANKSYNC_API_KEY": "${user_config.api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "BankSync API Key",
+      "description": "Your API key from banksync.io/developers (starts with bsk_)",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "tools": [
+    { "name": "list_workspaces", "description": "List all workspaces" },
+    { "name": "get_workspace", "description": "Get workspace details" },
+    { "name": "list_integrations", "description": "List connected destinations (Notion, Sheets, Airtable)" },
+    { "name": "list_banks", "description": "List connected bank connections" },
+    { "name": "get_bank", "description": "Get a bank connection and its accounts" },
+    { "name": "create_bank_link", "description": "Initiate a new bank connection" },
+    { "name": "connect_bank", "description": "Complete a Plaid bank connection" },
+    { "name": "list_accounts", "description": "Fetch live accounts from an institution" },
+    { "name": "get_account", "description": "Fetch a single account's details" },
+    { "name": "get_transactions", "description": "Fetch bank transactions" },
+    { "name": "get_balance", "description": "Fetch current live balance" },
+    { "name": "get_holdings", "description": "Get investment holdings" },
+    { "name": "get_trades", "description": "Get investment transactions" },
+    { "name": "get_loan", "description": "Get loan details" },
+    { "name": "list_feeds", "description": "List data pipeline feeds" },
+    { "name": "create_feed", "description": "Create a data pipeline" },
+    { "name": "trigger_sync", "description": "Run a sync job" },
+    { "name": "get_data_type_schema", "description": "Discover available fields for a data type" }
+  ]
+}
