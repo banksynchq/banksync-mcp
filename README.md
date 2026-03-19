@@ -10,7 +10,7 @@ Talk to your bank data. Connect AI agents to real bank accounts — transactions
 
 BankSync MCP is an open [Model Context Protocol](https://modelcontextprotocol.io) server with **28 tools** that gives Claude, ChatGPT, Cursor, VS Code, and other AI agents secure, read-write access to your financial data. Sync to Notion, Google Sheets, and Airtable — all through conversation.
 
-<!-- mcp-name: io.github.banksynchq/banksync -->
+<!-- mcp-name: io.banksync/mcp -->
 
 <p>
   <a href="https://banksync.io/product/mcp">Website</a> ·

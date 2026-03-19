@@ -8,5 +8,7 @@ __pycache__/
 *.pyc
 .env
 .mcpregistry_*
+mcp-registry-key.pem
+*.pem
 .pnpm-store/
 python/.venv/

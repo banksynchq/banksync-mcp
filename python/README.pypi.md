@@ -1,6 +1,6 @@
 # banksync-mcp
 
-<!-- mcp-name: io.github.banksynchq/banksync -->
+<!-- mcp-name: io.banksync/mcp -->
 
 [![PyPI version](https://img.shields.io/pypi/v/banksync-mcp)](https://pypi.org/project/banksync-mcp/)
 [![Python](https://img.shields.io/pypi/pyversions/banksync-mcp)](https://pypi.org/project/banksync-mcp/)
