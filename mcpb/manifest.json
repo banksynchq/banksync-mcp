@@ -4,16 +4,19 @@
   "display_name": "BankSync",
   "version": "1.0.2",
   "description": "Connect to your bank accounts — transactions, balances, investments, and loans across 15,000+ institutions.",
-  "long_description": "BankSync MCP gives Claude secure access to your real financial data. Ask about transactions, check balances, track investments, and sync data to Notion, Google Sheets, and Airtable — all through conversation.\n\n28 tools across 7 categories: workspace management, bank connections, account data, financial queries (transactions, balances, holdings, trades, loans), automated data pipelines (feeds), and sync job management.\n\nSupports 15,000+ institutions via Plaid (US/UK/CA) and Basiq (AU/NZ).",
+  "long_description": "BankSync MCP gives Claude secure access to your real financial data. Ask about transactions, check balances, track investments, and sync data to Notion, Google Sheets, and Airtable — all through conversation.\n\nTools span workspace management, bank connections, account data, financial queries (transactions, balances, holdings, trades, loans), automated data pipelines (feeds), and sync job management.\n\nSupports 15,000+ financial institutions across US, UK, Canada, Australia, and New Zealand.",
   "author": {
     "name": "BankSync",
-    "email": "hello@banksync.io",
-    "url": "https://banksync.io"
+    "email": "support@banksync.io",
+    "url": "https://github.com/banksynchq"
   },
   "homepage": "https://banksync.io",
   "repository": { "type": "git", "url": "https://github.com/banksynchq/banksync-mcp" },
   "documentation": "https://banksync.io/developers",
   "license": "MIT",
+  "privacy_policies": [
+    "https://banksync.io/privacy"
+  ],
   "keywords": [
     "banking",
     "finance",
@@ -24,6 +27,12 @@
     "google-sheets",
     "airtable"
   ],
+  "compatibility": {
+    "platforms": ["darwin", "win32"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
   "server": {
     "type": "node",
     "entry_point": "server/index.js",
@@ -45,13 +54,17 @@
     }
   },
   "tools": [
+    { "name": "get_data_type_schema", "description": "Get available source fields for a data type" },
+    { "name": "list_feed_sources", "description": "List supported feed source types and their data type combinations" },
     { "name": "list_workspaces", "description": "List all workspaces" },
     { "name": "get_workspace", "description": "Get workspace details" },
     { "name": "list_integrations", "description": "List connected destinations (Notion, Sheets, Airtable)" },
+    { "name": "delete_integration", "description": "Remove a destination integration from a workspace" },
     { "name": "list_banks", "description": "List connected bank connections" },
     { "name": "get_bank", "description": "Get a bank connection and its accounts" },
-    { "name": "create_bank_link", "description": "Initiate a new bank connection" },
+    { "name": "create_bank_link", "description": "Initiate a new bank connection — returns authorization URL" },
     { "name": "connect_bank", "description": "Complete a Plaid bank connection" },
+    { "name": "delete_bank", "description": "Remove a bank connection from a workspace" },
     { "name": "list_accounts", "description": "Fetch live accounts from an institution" },
     { "name": "get_account", "description": "Fetch a single account's details" },
     { "name": "get_transactions", "description": "Fetch bank transactions" },
@@ -60,8 +73,14 @@
     { "name": "get_trades", "description": "Get investment transactions" },
     { "name": "get_loan", "description": "Get loan details" },
     { "name": "list_feeds", "description": "List data pipeline feeds" },
-    { "name": "create_feed", "description": "Create a data pipeline" },
-    { "name": "trigger_sync", "description": "Run a sync job" },
-    { "name": "get_data_type_schema", "description": "Discover available fields for a data type" }
+    { "name": "get_feed", "description": "Get full configuration and status of a feed" },
+    { "name": "create_feed", "description": "Create a new data pipeline feed" },
+    { "name": "update_feed", "description": "Update a feed's configuration or schedule" },
+    { "name": "validate_feed", "description": "Pre-flight validate a feed configuration" },
+    { "name": "delete_feed", "description": "Permanently delete a feed and its job history" },
+    { "name": "list_jobs", "description": "List sync job history for a feed" },
+    { "name": "get_job", "description": "Get status and progress of a sync job" },
+    { "name": "trigger_sync", "description": "Queue a new sync job for a feed" },
+    { "name": "cancel_job", "description": "Cancel a queued or in-progress sync job" }
   ]
 }

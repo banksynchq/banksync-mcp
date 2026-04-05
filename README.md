@@ -262,6 +262,10 @@ npx @modelcontextprotocol/inspector --url https://mcp.banksync.io --header "X-AP
 | **[banksync.io/developers](https://banksync.io/developers)** | Full API documentation |
 | **[banksync.io/developers/mcp-setup](https://banksync.io/developers/mcp-setup)** | Per-client setup guides |
 
+## Privacy Policy
+
+BankSync's privacy policy is available at [banksync.io/privacy](https://banksync.io/privacy). BankSync never stores banking credentials — authentication is delegated to Plaid and Basiq. API keys are scoped per workspace and all data is encrypted in transit.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
