@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.0.3] — 2026-04-12
+
+- Fix npx @banksync/mcp resolution and hoisted mcp-remote lookup
+- Update manifest and packages for Connectors Directory submission
+- Add Claude Desktop Extension (MCPB) bundle
+- Fix version test to not hardcode version string
+- Fix Smithery badge format
+- Fix Smithery badge URL to match published slug
+- Update Smithery badge to @banksync/banksync-mcp
+
 ## [v1.0.2] — 2026-03-19
 
 - Shorten server.json description to meet registry 100-char limit
