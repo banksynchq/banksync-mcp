@@ -23,6 +23,7 @@
   "type": "module",
   "main": "dist/index.js",
   "bin": {
+    "mcp": "dist/index.js",
     "banksync-mcp": "dist/index.js"
   },
   "files": [
