@@ -1,5 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { resolve } from "node:path";
+import { createRequire } from "node:module";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 
 describe("banksync-mcp CLI", () => {
   const originalEnv = process.env;
@@ -26,7 +28,6 @@ describe("banksync-mcp CLI", () => {
       .spyOn(process, "exit")
       .mockImplementation(() => undefined as never);
 
-    // Dynamic import to re-execute the module
     await import("./index.js").catch(() => {});
 
     expect(exitMock).toHaveBeenCalledWith(1);
@@ -35,30 +36,28 @@ describe("banksync-mcp CLI", () => {
     );
   });
 
-  it("should resolve mcp-remote binary path correctly", () => {
-    const expected = resolve(
-      import.meta.dirname,
-      "..",
-      "node_modules",
-      ".bin",
-      "mcp-remote"
-    );
-    // Verify path resolution logic matches what index.ts does
-    expect(expected).toContain("node_modules/.bin/mcp-remote");
+  it("should resolve mcp-remote bin via Node module resolution", () => {
+    const require = createRequire(import.meta.url);
+    const pkgJsonPath = require.resolve("mcp-remote/package.json");
+    const pkg = require("mcp-remote/package.json") as {
+      bin: string | Record<string, string>;
+    };
+    const binRel =
+      typeof pkg.bin === "string" ? pkg.bin : pkg.bin["mcp-remote"];
+    expect(binRel).toBeTruthy();
+    const binAbs = resolve(dirname(pkgJsonPath), binRel as string);
+    expect(existsSync(binAbs)).toBe(true);
   });
 
-  it("should use correct remote URL", async () => {
-    // We test the constant by reading the source
-    const { readFileSync } = await import("node:fs");
+  it("should use correct remote URL", () => {
     const source = readFileSync(
       resolve(import.meta.dirname, "index.ts"),
       "utf-8"
     );
-    expect(source).toContain('https://mcp.banksync.io');
+    expect(source).toContain("https://mcp.banksync.io");
   });
 
-  it("should pass API key as X-API-Key header", async () => {
-    const { readFileSync } = await import("node:fs");
+  it("should pass API key as X-API-Key header", () => {
     const source = readFileSync(
       resolve(import.meta.dirname, "index.ts"),
       "utf-8"
@@ -67,8 +66,7 @@ describe("banksync-mcp CLI", () => {
     expect(source).toContain("--header");
   });
 
-  it("should use stdio inherit for child process", async () => {
-    const { readFileSync } = await import("node:fs");
+  it("should use stdio inherit for child process", () => {
     const source = readFileSync(
       resolve(import.meta.dirname, "index.ts"),
       "utf-8"
