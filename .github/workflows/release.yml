@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    outputs:
+      created: ${{ steps.check.outputs.created }}
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -28,20 +32,20 @@ jobs:
         id: check
         run: |
           if git rev-parse "v${{ steps.version.outputs.version }}" >/dev/null 2>&1; then
-            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "created=false" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "created=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Get previous tag
-        if: steps.check.outputs.exists == 'false'
+        if: steps.check.outputs.created == 'true'
         id: prev
         run: |
           PREV=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
           echo "tag=$PREV" >> "$GITHUB_OUTPUT"
 
       - name: Generate changelog
-        if: steps.check.outputs.exists == 'false'
+        if: steps.check.outputs.created == 'true'
         id: changelog
         run: |
           TAG="${{ steps.version.outputs.tag }}"
@@ -67,7 +71,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Create GitHub Release
-        if: steps.check.outputs.exists == 'false'
+        if: steps.check.outputs.created == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -76,7 +80,7 @@ jobs:
             --notes "${{ steps.changelog.outputs.body }}"
 
       - name: Update CHANGELOG.md
-        if: steps.check.outputs.exists == 'false'
+        if: steps.check.outputs.created == 'true'
         run: |
           TAG="${{ steps.version.outputs.tag }}"
           DATE=$(date +%Y-%m-%d)
@@ -110,10 +114,30 @@ jobs:
           fi
 
       - name: Commit CHANGELOG.md
-        if: steps.check.outputs.exists == 'false'
+        if: steps.check.outputs.created == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md
           git diff --cached --quiet || git commit -m "Update CHANGELOG.md for ${{ steps.version.outputs.tag }}"
           git push
+
+  publish-npm:
+    name: Publish npm
+    needs: release
+    if: needs.release.outputs.created == 'true'
+    uses: ./.github/workflows/publish-npm.yml
+    secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
+
+  publish-pypi:
+    name: Publish PyPI
+    needs: release
+    if: needs.release.outputs.created == 'true'
+    uses: ./.github/workflows/publish-pypi.yml
+    secrets: inherit
+    permissions:
+      contents: read
+      id-token: write
