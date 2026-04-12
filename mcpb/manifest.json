@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "banksync-mcp",
   "display_name": "BankSync",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Connect to your bank accounts — transactions, balances, investments, and loans across 15,000+ institutions.",
   "long_description": "BankSync MCP gives Claude secure access to your real financial data. Ask about transactions, check balances, track investments, and sync data to Notion, Google Sheets, and Airtable — all through conversation.\n\nTools span workspace management, bank connections, account data, financial queries (transactions, balances, holdings, trades, loans), automated data pipelines (feeds), and sync job management.\n\nSupports 15,000+ financial institutions across US, UK, Canada, Australia, and New Zealand.",
   "author": {
