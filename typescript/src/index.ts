@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-import { spawn } from "node:child_process";
-import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 const REMOTE_URL = "https://mcp.banksync.io";
 
@@ -15,29 +14,47 @@ if (!apiKey) {
   process.exit(1);
 }
 
-const require = createRequire(import.meta.url);
-const pkgJsonPath = require.resolve("mcp-remote/package.json");
-const { bin } = require("mcp-remote/package.json") as {
-  bin: string | Record<string, string>;
+const remote = new StreamableHTTPClientTransport(new URL(REMOTE_URL), {
+  requestInit: { headers: { "X-API-Key": apiKey } },
+});
+const local = new StdioServerTransport();
+
+local.onmessage = (msg) => {
+  remote.send(msg).catch((err: Error) => {
+    console.error(`[banksync-mcp] remote.send failed: ${err.message}`);
+  });
 };
-const binRel = typeof bin === "string" ? bin : bin["mcp-remote"];
-if (!binRel) {
-  console.error("Failed to locate mcp-remote executable in its package.json");
+remote.onmessage = (msg) => {
+  local.send(msg).catch((err: Error) => {
+    console.error(`[banksync-mcp] local.send failed: ${err.message}`);
+  });
+};
+
+const shutdown = async () => {
+  await Promise.allSettled([local.close(), remote.close()]);
+  process.exit(0);
+};
+local.onclose = shutdown;
+remote.onclose = shutdown;
+local.onerror = (err: Error) =>
+  console.error(`[banksync-mcp] local error: ${err.message}`);
+remote.onerror = (err: Error) => {
+  // The SDK attempts an optional GET-based SSE listener per MCP spec;
+  // the BankSync server doesn't expose it. Swallow its retry chatter.
+  const msg = err.message || "";
+  if (
+    msg.includes("Failed to open SSE stream") ||
+    msg.includes("Maximum reconnection attempts")
+  )
+    return;
+  console.error(`[banksync-mcp] remote error: ${msg}`);
+};
+
+try {
+  await remote.start();
+  await local.start();
+} catch (err) {
+  const msg = err instanceof Error ? err.message : String(err);
+  console.error(`[banksync-mcp] startup failed: ${msg}`);
   process.exit(1);
 }
-const mcpRemoteBin = resolve(dirname(pkgJsonPath), binRel);
-
-const child = spawn(
-  process.execPath,
-  [mcpRemoteBin, REMOTE_URL, "--header", `X-API-Key:${apiKey}`],
-  {
-    stdio: "inherit",
-    env: process.env,
-  }
-);
-
-child.on("exit", (code) => process.exit(code ?? 0));
-child.on("error", (err) => {
-  console.error(`Failed to start mcp-remote: ${err.message}`);
-  process.exit(1);
-});
