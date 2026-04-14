@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "banksync-mcp"
-version = "1.0.3"
+version = "1.0.4"
 description = "BankSync MCP server — connect AI agents to bank accounts, transactions, balances, and investment data"
 readme = "README.pypi.md"
 license = "MIT"

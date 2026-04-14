@@ -1,6 +1,6 @@
 {
   "name": "banksync-mcpb",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "author": "BankSync <support@banksync.io>",
