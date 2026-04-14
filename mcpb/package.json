@@ -2,8 +2,9 @@
   "name": "banksync-mcpb",
   "version": "1.0.3",
   "private": true,
+  "type": "module",
   "author": "BankSync <support@banksync.io>",
   "dependencies": {
-    "mcp-remote": "^0.1.0"
+    "@modelcontextprotocol/sdk": "^1.0.0"
   }
 }

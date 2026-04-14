@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { createRequire } from "node:module";
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 describe("banksync-mcp CLI", () => {
   const originalEnv = process.env;
@@ -36,19 +35,6 @@ describe("banksync-mcp CLI", () => {
     );
   });
 
-  it("should resolve mcp-remote bin via Node module resolution", () => {
-    const require = createRequire(import.meta.url);
-    const pkgJsonPath = require.resolve("mcp-remote/package.json");
-    const pkg = require("mcp-remote/package.json") as {
-      bin: string | Record<string, string>;
-    };
-    const binRel =
-      typeof pkg.bin === "string" ? pkg.bin : pkg.bin["mcp-remote"];
-    expect(binRel).toBeTruthy();
-    const binAbs = resolve(dirname(pkgJsonPath), binRel as string);
-    expect(existsSync(binAbs)).toBe(true);
-  });
-
   it("should use correct remote URL", () => {
     const source = readFileSync(
       resolve(import.meta.dirname, "index.ts"),
@@ -62,15 +48,15 @@ describe("banksync-mcp CLI", () => {
       resolve(import.meta.dirname, "index.ts"),
       "utf-8"
     );
-    expect(source).toContain("X-API-Key:");
-    expect(source).toContain("--header");
+    expect(source).toContain("X-API-Key");
   });
 
-  it("should use stdio inherit for child process", () => {
+  it("should bridge stdio to Streamable HTTP via MCP SDK", () => {
     const source = readFileSync(
       resolve(import.meta.dirname, "index.ts"),
       "utf-8"
     );
-    expect(source).toContain('"inherit"');
+    expect(source).toContain("StreamableHTTPClientTransport");
+    expect(source).toContain("StdioServerTransport");
   });
 });

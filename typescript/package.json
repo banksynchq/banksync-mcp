@@ -35,11 +35,11 @@
     "lint": "oxlint src/",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "pnpm lint && pnpm typecheck && pnpm test",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "mcp-remote": "^0.1.0"
+    "@modelcontextprotocol/sdk": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^25.3.3",
