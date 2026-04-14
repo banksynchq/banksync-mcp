@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.0.4] — 2026-04-14
+
+- Replace mcp-remote with direct MCP SDK stdio↔HTTP bridge
+- Fix release→publish cascade and document new flow
+- Update CHANGELOG.md for v1.0.3
+
 ## [v1.0.3] — 2026-04-12
 
 - Fix npx @banksync/mcp resolution and hoisted mcp-remote lookup
