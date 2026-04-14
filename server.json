@@ -3,7 +3,7 @@
   "name": "io.banksync/mcp",
   "title": "BankSync",
   "description": "Connect AI agents to bank accounts, transactions, balances, and investments.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": {
     "url": "https://github.com/banksynchq/banksync-mcp",
     "source": "github"
@@ -13,7 +13,7 @@
     {
       "registryType": "npm",
       "identifier": "@banksync/mcp",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"
@@ -30,7 +30,7 @@
     {
       "registryType": "pypi",
       "identifier": "banksync-mcp",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "runtimeHint": "uvx",
       "transport": {
         "type": "stdio"
