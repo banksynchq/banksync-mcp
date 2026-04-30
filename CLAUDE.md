@@ -57,7 +57,7 @@ To cut a release:
 The `.mcpb` bundle is built and attached to the release automatically by the `publish-mcpb` job in `release.yml`. Each release gets a versioned asset (`banksync-mcp-<version>.mcpb`) on `v<version>`, and the rolling `latest` release/tag is re-pointed so this stable URL always serves the newest bundle:
 
 ```
-https://github.com/banksynchq/banksync-mcp/releases/download/latest/banksync-mcp-latest.mcpb
+https://github.com/banksynchq/banksync-mcp/releases/download/latest/banksync-mcp.mcpb
 ```
 
 Manual follow-up per release:

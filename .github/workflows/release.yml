@@ -170,6 +170,7 @@ jobs:
           npx --yes @anthropic-ai/mcpb validate manifest.json
           npx --yes @anthropic-ai/mcpb pack . "banksync-mcp-${VERSION}.mcpb"
           cp "banksync-mcp-${VERSION}.mcpb" banksync-mcp-latest.mcpb
+          cp "banksync-mcp-${VERSION}.mcpb" banksync-mcp.mcpb
 
       - name: Attach versioned bundle to release
         env:
@@ -189,7 +190,8 @@ jobs:
           gh release delete latest --yes --cleanup-tag || true
           gh release create latest \
             --title "Latest bundle (${TAG})" \
-            --notes "Rolling pointer to [${TAG}](https://github.com/${{ github.repository }}/releases/tag/${TAG}). Stable URL: \`https://github.com/${{ github.repository }}/releases/download/latest/banksync-mcp-latest.mcpb\`" \
+            --notes "Rolling pointer to [${TAG}](https://github.com/${{ github.repository }}/releases/tag/${TAG}). Stable URL: \`https://github.com/${{ github.repository }}/releases/download/latest/banksync-mcp.mcpb\`" \
             --target "${SHA}" \
+            "mcpb/banksync-mcp.mcpb" \
             "mcpb/banksync-mcp-latest.mcpb" \
             "mcpb/banksync-mcp-${VERSION}.mcpb"
