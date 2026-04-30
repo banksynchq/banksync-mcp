@@ -185,7 +185,7 @@ jobs:
         run: |
           TAG="${{ needs.release.outputs.tag }}"
           VERSION="${{ needs.release.outputs.version }}"
-          SHA=$(git rev-list -n 1 "${TAG}")
+          SHA=$(git rev-parse HEAD)
           gh release delete latest --yes --cleanup-tag || true
           gh release create latest \
             --title "Latest bundle (${TAG})" \
