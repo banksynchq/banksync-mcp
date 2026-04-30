@@ -8,6 +8,7 @@ on:
 jobs:
   publish:
     name: Publish to PyPI
+    if: github.event_name != 'release' || github.event.release.tag_name != 'latest'
     runs-on: ubuntu-latest
     permissions:
       contents: read
