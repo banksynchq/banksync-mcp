@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "server.json"
+      - "mcpb/**"
 
 jobs:
   release:
@@ -141,3 +142,54 @@ jobs:
     permissions:
       contents: read
       id-token: write
+
+  publish-mcpb:
+    name: Build & Publish MCPB Bundle
+    needs: release
+    if: needs.release.outputs.created == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install bundle dependencies
+        working-directory: mcpb
+        run: npm install --omit=dev --no-package-lock
+
+      - name: Validate & pack bundle
+        working-directory: mcpb
+        run: |
+          VERSION="${{ needs.release.outputs.version }}"
+          npx --yes @anthropic-ai/mcpb validate manifest.json
+          npx --yes @anthropic-ai/mcpb pack . "banksync-mcp-${VERSION}.mcpb"
+          cp "banksync-mcp-${VERSION}.mcpb" banksync-mcp-latest.mcpb
+
+      - name: Attach versioned bundle to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ needs.release.outputs.tag }}" \
+            "mcpb/banksync-mcp-${{ needs.release.outputs.version }}.mcpb" \
+            --clobber
+
+      - name: Re-point `latest` rolling release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ needs.release.outputs.tag }}"
+          VERSION="${{ needs.release.outputs.version }}"
+          SHA=$(git rev-list -n 1 "${TAG}")
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest \
+            --title "Latest bundle (${TAG})" \
+            --notes "Rolling pointer to [${TAG}](https://github.com/${{ github.repository }}/releases/tag/${TAG}). Stable URL: \`https://github.com/${{ github.repository }}/releases/download/latest/banksync-mcp-latest.mcpb\`" \
+            --target "${SHA}" \
+            "mcpb/banksync-mcp-latest.mcpb" \
+            "mcpb/banksync-mcp-${VERSION}.mcpb"

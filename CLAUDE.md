@@ -54,13 +54,12 @@ To cut a release:
 2. Open a PR and **rebase-merge** (not squash). Put the bump as the last commit so the previous commit's message ends up in the auto-generated CHANGELOG (`release.yml` runs `git log PREV..HEAD~1`, which excludes the tip commit).
 3. Once merged, `release.yml` runs automatically: tags `v<version>`, creates the GitHub release, then publishes to npm and PyPI in the same run. Confirm both via `npm view @banksync/mcp version` and `curl -s https://pypi.org/pypi/banksync-mcp/json | jq -r .info.version`.
 
+The `.mcpb` bundle is built and attached to the release automatically by the `publish-mcpb` job in `release.yml`. Each release gets a versioned asset (`banksync-mcp-<version>.mcpb`) on `v<version>`, and the rolling `latest` release/tag is re-pointed so this stable URL always serves the newest bundle:
+
+```
+https://github.com/banksynchq/banksync-mcp/releases/download/latest/banksync-mcp-latest.mcpb
+```
+
 Manual follow-up per release:
 
 - **MCP Registry:** `mcp-publisher publish` (not automated).
-- **Connectors Directory refresh:** rebuild the bundle locally and upload the generated `.mcpb` (it's gitignored):
-  ```bash
-  cd mcpb
-  rm -f banksync-mcp-*.mcpb
-  npx --yes @anthropic-ai/mcpb validate manifest.json
-  npx --yes @anthropic-ai/mcpb pack . banksync-mcp-<version>.mcpb
-  ```
